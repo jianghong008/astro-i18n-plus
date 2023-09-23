@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths(){
+    return [
+        {
+            params:{
+                id:1
+            }
+        },
+        {
+            params:{
+                id:2
+            }
+        },
+        {
+            params:{
+                id:undefined
+            }
+        }
+    ]
+}
+const { id } = Astro.params;
+---
+
+<Layout title="文章">
+    <h1>hello,article</h1>
+    <p>id:{id}</p>
+</Layout>
+<script>
+    import {connect} from '../../utils/com'
+    connect()
+</script>
