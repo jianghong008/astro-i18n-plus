@@ -1,20 +1,7 @@
 {
-  "name": "astro-demo",
-  "type": "commonjs",
-  "version": "0.0.1",
+  "name": "astro-i18n-plus",
+  "workspaces": ["test", "packages/astro-i18n-plus"],
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@typescript-eslint/typescript-estree": "^6.7.2",
-    "astro": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.6.2",
-    "acorn": "^8.10.0"
+    "dev":"npm run dev --workspace=test"
   }
 }

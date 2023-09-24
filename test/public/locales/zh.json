@@ -1,0 +1,22 @@
+{
+    "title":"欢迎使用astro-i18n-plus",
+    "description": "astro-i18n-plus是一个国际化插件，基本自动化操作，无需手动管理页面，也不会对您的src目录造成干扰。",
+    "cards":[
+        {
+            "title":"极少的配置",
+            "subtitle":"没有额外配置，您只需要专注自己的事，无需操心翻译问题。"
+        },
+        {
+            "title":"自动加载语言文件",
+            "subtitle":"在 public/locales/ 下放好*.json即可自动加载语言列表"
+        },
+        {
+            "title":"无需维护多套模板页面",
+            "subtitle":"多语言模板自动维护"
+        },
+        {
+            "title":"不会污染项目",
+            "subtitle":"以往的国际化组件会在src下生成多套模板,这看起来很不爽."
+        }
+    ]
+}

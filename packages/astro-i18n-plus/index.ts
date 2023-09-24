@@ -1,8 +1,7 @@
 import type { AstroIntegration } from "astro"
-import process from 'process'
 import path from 'path'
 import fs from 'fs/promises'
-import { AstroLocaleParse } from "./file-parse";
+import { AstroLocaleParse } from "./astro-parse";
 const RootDir = process.cwd();
 const TempPath = path.join(RootDir, '.temp');
 const PagesDir = path.join(RootDir, 'src/pages');
@@ -15,7 +14,7 @@ interface AstroRoute {
     locale: string
 }
 
-const locales = ['zh', 'vn']
+const locales = ['zh', 'ru']
 
 async function getPages(dir = '') {
     const pagesDir = dir ? dir : PagesDir
@@ -81,12 +80,19 @@ async function genratePages(pages: AstroRoute[]) {
     }
     return ar;
 }
-
-const myI18n: AstroIntegration = {
+async function checkTempDir(){
+    try {
+        await fs.access(TempPath,fs.constants.F_OK)
+    } catch (error) {
+        fs.mkdir(TempPath)
+    }
+}
+const astroI18nPlus: AstroIntegration = {
     name: 'my-i18n',
     hooks: {
         'astro:config:setup': async (options: { injectRoute: any }) => {
             try {
+                await checkTempDir();
                 const temps = parseRoutes(await getPages());
                 const pages = await genratePages(temps);
                 pages.forEach(page => {
@@ -120,12 +126,9 @@ export function setLocale(locale: string) {
     return loadMessage(locale);
 }
 
-export async function t(k: string) {
+export function t(k: string):string {
     const ar = k.split('.');
     let o = null;
-    if(state.messages.size===0){
-        await loadMessage();
-    }
     const message = state.messages.get(state.locale);
     if (!message) {
         return ''
@@ -141,5 +144,5 @@ export async function t(k: string) {
 }
 
 export default () => {
-    return myI18n
+    return astroI18nPlus
 }

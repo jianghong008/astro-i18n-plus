@@ -70,8 +70,10 @@ export class AstroLocaleParse {
         lines[source.loc.start.line - 1] = lines[source.loc.start.line - 1]?.replace(source.value, relativePath);
     }
     setLocale(lines: string[], index: number, arg: string) {
-        
-        lines[index - 1] = lines[index - 1].replace(`${AstroLocaleParse.SetLocaleMethod}('${arg}')`, `${AstroLocaleParse.SetLocaleMethod}('${this._locale}')`)
+        const s = `${AstroLocaleParse.SetLocaleMethod}\\(["']${arg}["']\\)`;
+        const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '")';
+        lines[index - 1] = lines[index - 1].replace(new RegExp(s,'i'), n);
+
     }
     resolveModule(code: string) {
         const ast = parse(code, {
@@ -82,10 +84,11 @@ export class AstroLocaleParse {
         for (const b of ast.body) {
             if (b.type === 'ImportDeclaration' && this.isAbsolute(b.source.value)) {
                 this.reImportFile(lines, b.source);
-            } else if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
-                this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
             }
+            if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
+                this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
 
+            }
         }
 
         return lines.join('\n');

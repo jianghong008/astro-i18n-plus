@@ -1,0 +1,22 @@
+{
+    "title":"Welcome to astro-i18n-plus",
+    "description": "Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.",
+    "cards":[
+        {
+            "title":"Minimal configuration",
+            "subtitle":"There are no additional configurations, you just need to focus on your own business and not worry about translation issues."
+        },
+        {
+            "title":"Automatically load language files",
+            "subtitle":"Drop *. json in public/locales/ to automatically load the language list"
+        },
+        {
+            "title":"No need to maintain multiple template pages",
+            "subtitle":"Automatic maintenance of multilingual templates"
+        },
+        {
+            "title":"Not polluting the project",
+            "subtitle":"In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable"
+        }
+    ]
+}

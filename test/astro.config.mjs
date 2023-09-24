@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
-import i18n from './src/plugins/i18n';
+import astroI18nPlus from 'astro-i18n-plus';
+
 // https://astro.build/config
 export default defineConfig({
-    integrations:[i18n(),]
+    integrations:[astroI18nPlus(),]
 });
