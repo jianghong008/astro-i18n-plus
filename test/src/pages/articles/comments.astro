@@ -1,8 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
+import { state, setLocale } from "astro-i18n-plus";
+setLocale("zh");
 ---
-<Layout title='评论'>
-<ul>
-    <li>评论12</li>
-</ul>
+
+<Layout title="评论">
+    <h3>lang: {state.locale}</h3>
+    <ul>
+        <li>评论1</li>
+        <li>评论2</li>
+    </ul>
 </Layout>

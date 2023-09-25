@@ -1,10 +1,55 @@
-##### astro-i18n-plus是一个国际化插件，基本自动化操作，无需手动管理页面，也不会对您的src目录造成干扰。
+##### Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.
 
--  Minimal configuration
+-  **Zero Configuration**
     There are no additional configurations, you just need to focus on your own business and not worry about translation issues.
-- Automatically load language files
+- **Automatically load language files**
     Drop *. json in public/locales/ to automatically load the language list
-- No need to maintain multiple template pages
+- **No need to maintain multiple template pages**
     Automatic maintenance of multilingual templates
-- Not polluting the project
+- **Not polluting the project**
     In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable
+
+If your root directory looks like this
+```
+/public/locales
+    - zh.json
+    - en.json
+    - ru.json
+/src/pages
+    - index.astro
+```
+##### Usage
+###### step1
+``` javascript
+// astro.config.mjs
+import astroI18nPlus from 'astro-i18n-plus';
+export default defineConfig({
+    integrations:[astroI18nPlus('en'),]
+});
+```
+###### step2
+```shell
+npm run dev
+```
+These files will be generated in the ```.temp``` directory(**The default language will be ignored**)
+```
+/.temp
+    - zh
+        - index.astro
+    - ru
+        - index.astro
+```
+###### step3
+In ```*.astro``` file
+```typescript
+// typescript
+---
+import { t, setLocale } from "astro-i18n-plus";
+import {localizeUrl} from 'astro-i18n-plus/utils'
+setLocale('zh');
+---
+```
+```html
+<!-- html -->
+<h1>{t("title")}</h1>
+```

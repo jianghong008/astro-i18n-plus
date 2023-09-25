@@ -1,0 +1,29 @@
+---
+import { t,loadLocales } from "astro-i18n-plus";
+import {localizeUrl,localizePath} from 'astro-i18n-plus/utils'
+const locales:string[] = await loadLocales();
+---
+<header>
+    <ul class="locales">
+        {locales.map((locale) => (
+            <li>
+                <a href={localizePath(Astro.url,locale)}>{locale}</a>
+            </li>
+          ))}
+    </ul>
+</header>
+<style>
+    header{
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 2rem;
+	}
+	.locales{
+		list-style: none;
+		display: flex;
+		gap:0.5rem;
+	}
+	.locales a{
+		color: white;
+	}
+</style>

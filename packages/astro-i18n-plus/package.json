@@ -1,15 +1,17 @@
 {
   "name": "astro-i18n-plus",
   "description": "astro i18n plus",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "homepage": "https://gitee.com/jhpw/astro-i18n-plus",
   "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./utils":"./utils.ts"
   },
   "files": [
     "index.ts",
-    "astro-parse.ts"
+    "astro-parse.ts",
+    "utils.ts"
   ],
   "keywords": [
     "astro",
@@ -17,11 +19,9 @@
     "i18n",
     "i18n-plus"
   ],
-  "dependencies": {
+  "devDependencies": {
+    "@types/node": "^20.6.4",
     "@typescript-eslint/typescript-estree": "^6.7.2",
     "astro": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.6.4"
   }
 }

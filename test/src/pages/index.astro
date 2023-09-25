@@ -2,10 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import { t, setLocale } from "astro-i18n-plus";
-setLocale('en');
+setLocale('zh');
+
 ---
 
 <Layout title="Welcome to Astro.">
+	
 	<main>
 		<svg
 			class="astro-a"
@@ -65,6 +67,7 @@ setLocale('en');
 		font-size: 20px;
 		line-height: 1.6;
 	}
+	
 	.astro-a {
 		position: absolute;
 		top: -32px;

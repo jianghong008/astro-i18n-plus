@@ -3,5 +3,5 @@ import astroI18nPlus from 'astro-i18n-plus';
 
 // https://astro.build/config
 export default defineConfig({
-    integrations:[astroI18nPlus(),]
+    integrations:[astroI18nPlus('zh'),]
 });
