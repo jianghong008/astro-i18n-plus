@@ -2,6 +2,7 @@
 import path from 'path';
 import fs from 'node:fs/promises';
 import { parse } from '@typescript-eslint/typescript-estree';
+import { insertToString } from './utils';
 
 interface ScriptSource {
     src: string
@@ -72,8 +73,41 @@ export class AstroLocaleParse {
     setLocale(lines: string[], index: number, arg: string) {
         const s = `${AstroLocaleParse.SetLocaleMethod}\\(["']${arg}["']\\)`;
         const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '")';
-        lines[index - 1] = lines[index - 1].replace(new RegExp(s,'i'), n);
+        lines[index - 1] = lines[index - 1].replace(new RegExp(s, 'i'), n);
 
+    }
+    importLocaleFunc(lines: string[]) {
+        const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '") \n';
+        lines.push(n);
+    }
+    importLocaleFuncAndUse(lines: string[], b: any) {
+
+        const last = b.specifiers[b.specifiers.length - 1];
+        if (last) {
+            const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '") \n';
+            const line = last.loc.end.line-1;
+            const end = last.loc.end.column;
+            lines[line] = insertToString(lines[line], AstroLocaleParse.SetLocaleMethod, end);
+            lines.push(n)
+        } else {
+            lines.unshift(`import {${AstroLocaleParse.SetLocaleMethod}} from astro-i18n-plus \n`);
+        }
+    }
+    checkImortValue(specifiers: any[], val: string) {
+        for (const s of specifiers) {
+            if (s.imported.name === val) {
+                return true
+            }
+        }
+        return false
+    }
+    checkCallFun(codeBody: any[], func: string) {
+        for (const b of codeBody) {
+            if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === func) {
+                return true
+            }
+        }
+        return false
     }
     resolveModule(code: string) {
         const ast = parse(code, {
@@ -81,13 +115,22 @@ export class AstroLocaleParse {
             range: true,
         });
         const lines = code.split('\n');
-        for (const b of ast.body) {
+        for (let i=0;i<ast.body.length;i++) {
+            const b = ast.body[i];
+            if (!b) {
+                continue
+            }
             if (b.type === 'ImportDeclaration' && this.isAbsolute(b.source.value)) {
                 this.reImportFile(lines, b.source);
             }
             if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
                 this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
-
+            }
+            if (b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && this.checkImortValue(b.specifiers, 'setLocale') && !this.checkCallFun(ast.body, 'setLocale')) {
+                this.importLocaleFunc(lines)
+            }
+            if (b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && !this.checkImortValue(b.specifiers, 'setLocale') && !this.checkCallFun(ast.body, 'setLocale')) {
+                this.importLocaleFuncAndUse(lines, b)
             }
         }
 

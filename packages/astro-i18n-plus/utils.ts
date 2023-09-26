@@ -62,3 +62,9 @@ export function localizeUrl(url?: string) {
         return state.locale + '/' + url;
     }
 }
+
+export function insertToString(s: string, val: string, start: number) {
+    const ar = s.split('');
+    ar.splice(start + 1, 0, ...val.split(''));
+    return ar.join('');
+}

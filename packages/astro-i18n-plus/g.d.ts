@@ -1,5 +1,5 @@
-interface ImportMeta{
-    env:{
-        BASE_URL:string
+interface ImportMeta {
+    env: {
+        BASE_URL: string
     }
 }

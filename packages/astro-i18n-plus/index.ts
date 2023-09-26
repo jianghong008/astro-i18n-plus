@@ -154,7 +154,7 @@ const astroI18nPlus: AstroIntegration = {
     }
 }
 
-export async function setLocale(locale: string) {
+export function setLocale(locale: string) {
     state.locale = locale;
     loadMessage();
 }
@@ -175,7 +175,7 @@ export function t(k: string): string {
             o = Reflect.get(o, s);
         }
     }
-    return o;
+    return o ?? '';
 }
 
 export default (defaultLocale = 'zh') => {
