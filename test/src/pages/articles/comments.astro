@@ -6,9 +6,14 @@ import {
 ---
 
 <Layout title="评论">
-    <h3>lang: {state.locale}</h3>
+    <h3>lang: {state.locale}-- {state.localeChanged?'1':'0'}</h3>
     <ul>
         <li>评论1</li>
         <li>评论2</li>
     </ul>
+    <div>
+        {
+            state.messages.size
+        }
+    </div>
 </Layout>

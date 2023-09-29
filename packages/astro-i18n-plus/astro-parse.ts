@@ -43,8 +43,7 @@ export class AstroLocaleParse {
         const reg1 = /---[\d\D]*---/i
         const serverScript = ctx.match(reg1)?.[0]
 
-        // <script\b[^<]*(?:(?!</script>)<[^<]*)*<\/script>
-        let reg2 = /<script\b[^<]*<\/script>/gi
+        let reg2 = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g
         const scripts: ScriptSource[] = []
         ctx.match(reg2)?.forEach(s => {
             scripts.push({
@@ -76,7 +75,7 @@ export class AstroLocaleParse {
         lines[index - 1] = lines[index - 1].replace(new RegExp(s, 'i'), n);
 
     }
-    importLocaleFunc(lines: string[]) {
+    callLocaleFunc(lines: string[]) {
         const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '") \n';
         lines.push(n);
     }
@@ -85,16 +84,22 @@ export class AstroLocaleParse {
         const last = b.specifiers[b.specifiers.length - 1];
         if (last) {
             const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '") \n';
-            const line = last.loc.end.line-1;
+            const line = last.loc.end.line - 1;
             const end = last.loc.end.column;
             lines[line] = insertToString(lines[line], AstroLocaleParse.SetLocaleMethod, end);
             lines.push(n)
-        } else {
-            lines.unshift(`import {${AstroLocaleParse.SetLocaleMethod}} from astro-i18n-plus \n`);
         }
+    }
+    useLocaleFun(lines: string[]) {
+        lines.unshift(`\nimport {${AstroLocaleParse.SetLocaleMethod}} from 'astro-i18n-plus'`);
+        const n = AstroLocaleParse.SetLocaleMethod + '("' + this._locale + '") \n';
+        lines.push(n)
     }
     checkImortValue(specifiers: any[], val: string) {
         for (const s of specifiers) {
+            if (!s.imported) {
+                continue
+            }
             if (s.imported.name === val) {
                 return true
             }
@@ -102,6 +107,7 @@ export class AstroLocaleParse {
         return false
     }
     checkCallFun(codeBody: any[], func: string) {
+
         for (const b of codeBody) {
             if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === func) {
                 return true
@@ -109,13 +115,24 @@ export class AstroLocaleParse {
         }
         return false
     }
-    resolveModule(code: string) {
+    checkLocale(codeBody: any[]) {
+        let hasImport = false
+        for (const b of codeBody) {
+            if (b.type === 'ImportDeclaration') {
+                hasImport = this.checkImortValue(b.specifiers, AstroLocaleParse.SetLocaleMethod)
+            }
+
+        }
+
+        return this.checkCallFun(codeBody, AstroLocaleParse.SetLocaleMethod) && hasImport
+    }
+    resolveModule(code: string, server = false) {
         const ast = parse(code, {
             loc: true,
             range: true,
         });
         const lines = code.split('\n');
-        for (let i=0;i<ast.body.length;i++) {
+        for (let i = 0; i < ast.body.length; i++) {
             const b = ast.body[i];
             if (!b) {
                 continue
@@ -123,15 +140,17 @@ export class AstroLocaleParse {
             if (b.type === 'ImportDeclaration' && this.isAbsolute(b.source.value)) {
                 this.reImportFile(lines, b.source);
             }
-            if (b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
+            if (server && b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
                 this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
             }
-            if (b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && this.checkImortValue(b.specifiers, 'setLocale') && !this.checkCallFun(ast.body, 'setLocale')) {
-                this.importLocaleFunc(lines)
+            if (server && b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && this.checkImortValue(b.specifiers, AstroLocaleParse.SetLocaleMethod) && !this.checkCallFun(ast.body, AstroLocaleParse.SetLocaleMethod)) {
+                this.callLocaleFunc(lines)
             }
-            if (b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && !this.checkImortValue(b.specifiers, 'setLocale') && !this.checkCallFun(ast.body, 'setLocale')) {
-                this.importLocaleFuncAndUse(lines, b)
-            }
+
+        }
+
+        if (server && !this.checkLocale(ast.body)) {
+            this.useLocaleFun(lines)
         }
 
         return lines.join('\n');
@@ -140,7 +159,7 @@ export class AstroLocaleParse {
         // parse
         await this.loadSource()
         // sever
-        const server = this.resolveModule(this.source.server.src.replaceAll('---', ''));
+        const server = this.resolveModule(this.source.server.src.replaceAll('---', ''), true);
         this.source.server.cur = `---${server}---`;
         this.source.cur = this.source.src.replace(this.source.server.src, this.source.server.cur)
         // scripts 

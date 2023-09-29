@@ -1,7 +1,7 @@
 ---
 import { t,loadLocales } from "astro-i18n-plus";
 import {localizeUrl,localizePath} from 'astro-i18n-plus/utils'
-const locales:string[] = await loadLocales();
+const locales:string[] = loadLocales();
 ---
 <header>
     <ul class="locales">

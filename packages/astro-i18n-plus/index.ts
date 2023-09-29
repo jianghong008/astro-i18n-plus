@@ -1,7 +1,7 @@
 import type { AstroIntegration } from "astro"
 import path from 'path'
 import fs from 'fs/promises'
-import { readFileSync } from 'node:fs'
+import { readFileSync,readdirSync } from 'node:fs'
 import { AstroLocaleParse } from "./astro-parse";
 import { saveConfig } from "./utils";
 
@@ -13,6 +13,7 @@ export const state = {
     messages: new Map<string, any>(),
     locales: new Array<string>(),
     locale: 'en',
+    localeChanged:false,
     RootDir: process.cwd(),
     TempPath: path.join(process.cwd(), '.temp'),
     PagesDir: path.join(process.cwd(), 'src/pages'),
@@ -31,6 +32,7 @@ function loadMessage() {
     if (state.messages.has(state.locale)) {
         return
     }
+    
     try {
         const msg = readFileSync(path.join(state.LocaleDir, state.locale + '.json'), 'utf-8');
         state.messages.set(state.locale, JSON.parse(msg));
@@ -39,9 +41,9 @@ function loadMessage() {
     }
 }
 
-export async function loadLocales() {
+export function loadLocales() {
 
-    const files = await fs.readdir(state.LocaleDir);
+    const files = readdirSync(state.LocaleDir);
     const ar: string[] = [];
     for (const f of files) {
         const extname = path.extname(f);
@@ -156,10 +158,12 @@ const astroI18nPlus: AstroIntegration = {
 
 export function setLocale(locale: string) {
     state.locale = locale;
+    state.localeChanged = true;
     loadMessage();
 }
 
 export function t(k: string): string {
+    
     const ar = k.split('.');
     let o = null;
 
