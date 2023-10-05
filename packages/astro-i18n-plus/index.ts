@@ -1,9 +1,9 @@
 import type { AstroIntegration } from "astro"
 import path from 'path'
 import fs from 'fs/promises'
-import { readFileSync,readdirSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { AstroLocaleParse } from "./astro-parse";
-import { saveConfig } from "./utils";
+import { loadConfig, saveConfig } from "./utils";
 
 export const config = {
     default: 'en',
@@ -13,7 +13,6 @@ export const state = {
     messages: new Map<string, any>(),
     locales: new Array<string>(),
     locale: 'en',
-    localeChanged:false,
     RootDir: process.cwd(),
     TempPath: path.join(process.cwd(), '.temp'),
     PagesDir: path.join(process.cwd(), 'src/pages'),
@@ -29,20 +28,25 @@ interface AstroRoute {
 }
 
 function loadMessage() {
+    
     if (state.messages.has(state.locale)) {
+        
         return
     }
     
     try {
         const msg = readFileSync(path.join(state.LocaleDir, state.locale + '.json'), 'utf-8');
         state.messages.set(state.locale, JSON.parse(msg));
+        
     } catch (error) {
         console.log(error)
     }
 }
 
 export function loadLocales() {
-
+    if (state.locales.length > 0) {
+        return state.locales
+    }
     const files = readdirSync(state.LocaleDir);
     const ar: string[] = [];
     for (const f of files) {
@@ -52,6 +56,7 @@ export function loadLocales() {
             ar.push(locale);
         }
     }
+    state.locales = ar
     return ar
 }
 
@@ -93,7 +98,7 @@ function parseRoutes(pages: string[]) {
 async function genratePages(pages: AstroRoute[]) {
     const ar: AstroRoute[] = []
     await fs.rm(state.TempPath, { recursive: true });
-    const locales = await loadLocales();
+    const locales = loadLocales();
 
     for (const locale of locales) {
         if (locale === state.locale) {
@@ -115,6 +120,7 @@ async function genratePages(pages: AstroRoute[]) {
             } catch (e) {
                 console.log('--->', e)
             }
+            // file
             const f = await fs.open(path.join(tempDir, fullName), 'w');
             await fs.writeFile(f, astro.source.cur);
             f?.close();
@@ -156,22 +162,41 @@ const astroI18nPlus: AstroIntegration = {
     }
 }
 
-export function setLocale(locale: string) {
-    state.locale = locale;
-    state.localeChanged = true;
-    loadMessage();
+export function currentLocale(){
+    return getLocale()
+}
+
+export function getLocale() {
+    loadConfig()
+    loadLocales();
+    const locale = new Error().stack?.split('\n')?.[3].replace(/.+\(/, '').replace(')', '').replace(state.TempPath.replaceAll('\\', '/'), '')
+    if (!locale) {
+        
+        return config.default
+    }
+    
+    for (const l of state.locales) {
+        const reg = new RegExp(`^\/${l}[\\d\\D]+`)
+        if (reg.test(locale)) {
+            return l
+        }
+    }
+    return config.default
 }
 
 export function t(k: string): string {
+
+    state.locale = getLocale()
     
     const ar = k.split('.');
     let o = null;
-
-    const message = state.messages.get(state.locale);
+    
+    let message = state.messages.get(state.locale);
     if (!message) {
         loadMessage();
+        message = state.messages.get(state.locale);
     }
-
+    
     for (const s of ar) {
         if (!o && message) {
             o = Reflect.get(message, s);
@@ -179,6 +204,7 @@ export function t(k: string): string {
             o = Reflect.get(o, s);
         }
     }
+    
     return o ?? '';
 }
 

@@ -2,12 +2,14 @@
 interface Props {
 	title: string;
 }
+
+import { state } from 'astro-i18n-plus';
 import Header from './Header.astro';
 const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={state.locale}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />

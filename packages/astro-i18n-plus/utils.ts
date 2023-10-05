@@ -42,7 +42,7 @@ export function parseUrlToLocale(url: string) {
     }
     return locale
 }
-export function localizePath(pageUrl: Url, locale?: string) {
+export function localizePath(pageUrl: URL, locale?: string) {
     if (locale === undefined) {
         return pageUrl.pathname;
     }

@@ -18,5 +18,11 @@
             "title":"Not polluting the project",
             "subtitle":"In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable"
         }
-    ]
+    ],
+    "articles":{
+        "title":"This is an article"
+    },
+    "comments":{
+        "title":"Comment List"
+    }
 }

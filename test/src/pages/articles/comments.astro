@@ -1,19 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { 
-    state,
+    t,
 } from "astro-i18n-plus";
 ---
 
 <Layout title="评论">
-    <h3>lang: {state.locale}-- {state.localeChanged?'1':'0'}</h3>
+    <h3>{t('comments.title')}:</h3>
     <ul>
-        <li>评论1</li>
-        <li>评论2</li>
+        <li>1.</li>
+        <li>2.</li>
     </ul>
-    <div>
-        {
-            state.messages.size
-        }
-    </div>
 </Layout>

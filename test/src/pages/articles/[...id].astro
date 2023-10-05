@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-
+import { t } from 'astro-i18n-plus';
 export function getStaticPaths(){
     return [
         {
@@ -24,7 +24,7 @@ const { id } = Astro.params;
 ---
 
 <Layout title="文章">
-    <h1>hello,article</h1>
+    <h1>{t('articles.title')}</h1>
     <p>id:{id}</p>
 </Layout>
 <script>

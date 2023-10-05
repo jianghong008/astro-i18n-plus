@@ -141,10 +141,10 @@ export class AstroLocaleParse {
                 this.reImportFile(lines, b.source);
             }
             if (server && b.type === 'ExpressionStatement' && b.expression.type === 'CallExpression' && (b.expression.callee as any).name === AstroLocaleParse.SetLocaleMethod) {
-                this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
+                //this.setLocale(lines, b.expression.callee.loc.start.line, (b.expression.arguments?.[0] as any).value);
             }
             if (server && b.type === 'ImportDeclaration' && b.source.value === 'astro-i18n-plus' && this.checkImortValue(b.specifiers, AstroLocaleParse.SetLocaleMethod) && !this.checkCallFun(ast.body, AstroLocaleParse.SetLocaleMethod)) {
-                this.callLocaleFunc(lines)
+                //this.callLocaleFunc(lines)
             }
 
         }

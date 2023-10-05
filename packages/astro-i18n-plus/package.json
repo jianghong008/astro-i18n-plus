@@ -1,7 +1,7 @@
 {
   "name": "astro-i18n-plus",
   "description": "astro i18n plus",
-  "version": "0.0.1",
+  "version": "0.0.2-beta",
   "homepage": "https://gitee.com/jhpw/astro-i18n-plus",
   "type": "module",
   "exports": {

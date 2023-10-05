@@ -40,13 +40,11 @@ These files will be generated in the ```.temp``` directory(**The default languag
         - index.astro
 ```
 ###### step3
-In ```*.astro``` file
+In ```*.astro``` file,Can be used directly without specifying a language
 ```typescript
 // typescript
 ---
-import { t, setLocale } from "astro-i18n-plus";
-import {localizeUrl} from 'astro-i18n-plus/utils'
-setLocale('zh');
+import { t } from "astro-i18n-plus";
 ---
 ```
 ```html
