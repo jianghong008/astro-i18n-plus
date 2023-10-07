@@ -1,9 +1,9 @@
-import type { AstroIntegration } from "astro"
+import type { AstroGlobal, AstroIntegration } from "astro"
 import path from 'path'
 import fs from 'fs/promises'
 import { readFileSync, readdirSync } from 'node:fs'
 import { AstroLocaleParse } from "./astro-parse";
-import { loadConfig, saveConfig } from "./utils";
+import { loadConfig, parseUrlToLocale, saveConfig } from "./utils";
 
 export const config = {
     default: 'en',
@@ -181,12 +181,16 @@ export function getLocale() {
             return l
         }
     }
+
     return config.default
 }
-
+export function initLocale(astro:AstroGlobal){
+    state.locale = parseUrlToLocale(astro.url.pathname)
+    loadMessage();
+}
 export function t(k: string): string {
 
-    state.locale = getLocale()
+    // state.locale = getLocale()
     
     const ar = k.split('.');
     let o = null;

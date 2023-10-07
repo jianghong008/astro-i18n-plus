@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { t } from 'astro-i18n-plus';
+import { initLocale, t } from 'astro-i18n-plus';
 export function getStaticPaths(){
     return [
         {
@@ -21,6 +21,7 @@ export function getStaticPaths(){
     ]
 }
 const { id } = Astro.params;
+initLocale(Astro)
 ---
 
 <Layout title="文章">

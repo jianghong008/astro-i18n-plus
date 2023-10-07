@@ -1,4 +1,4 @@
-#### [EN](README.md) | 中文
+[EN](./README.md) | 中文
 ##### Astro-i18n-plus是一个国际化插件，它可以自动执行基本操作，而无需手动页面管理或干扰src目录。
 
 -  **零配置**
@@ -41,11 +41,12 @@ npm run dev
         - index.astro
 ```
 ###### 第三步
-在模板文件 ```*.astro``` 引入并使用
+在模板文件 ```*.astro``` 引入并使用,**Remember to initialize it before using the ```t``` function**
 ```typescript
 // typescript
 ---
-import { t } from "astro-i18n-plus";
+import { t,initLocale } from "astro-i18n-plus";
+initLocale(Astro);
 ---
 ```
 ```html

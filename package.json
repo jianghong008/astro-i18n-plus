@@ -3,6 +3,7 @@
   "workspaces": ["test", "packages/astro-i18n-plus"],
   "scripts": {
     "dev":"npm run dev --workspace=test",
+    "test":"npm run build --workspace=test",
     "private": "npm publish --access=private --workspace=packages/astro-i18n-plus",
     "public": "npm publish --access=public --workspace=packages/astro-i18n-plus"
   }
