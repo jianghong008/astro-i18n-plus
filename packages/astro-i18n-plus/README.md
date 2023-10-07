@@ -41,7 +41,7 @@ These files will be generated in the ```.temp``` directory(**The default languag
         - index.astro
 ```
 ###### step3
-In ```*.astro``` file,Can be used directly without specifying a language,**在使用```t```函数前记得初始化一下**
+In ```*.astro``` file,Can be used directly without specifying a language,**Remember to initialize it before using the ```t``` function**
 ```typescript
 // typescript
 ---

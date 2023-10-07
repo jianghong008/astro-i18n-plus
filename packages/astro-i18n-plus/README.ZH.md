@@ -41,7 +41,7 @@ npm run dev
         - index.astro
 ```
 ###### 第三步
-在模板文件 ```*.astro``` 引入并使用,**Remember to initialize it before using the ```t``` function**
+在模板文件 ```*.astro``` 引入并使用,**在使用```t```函数前记得初始化一下**
 ```typescript
 // typescript
 ---
