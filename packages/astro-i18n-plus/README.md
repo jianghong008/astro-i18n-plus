@@ -1,3 +1,4 @@
+#### EN | [中文](README.ZH.md)
 ##### Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.
 
 -  **Zero Configuration**
@@ -31,7 +32,7 @@ export default defineConfig({
 ```shell
 npm run dev
 ```
-These files will be generated in the ```.temp``` directory(**The default language will be ignored**)
+These files will be generated in the ```.temp``` directory(**The default language will be ignored**),Git can ignore them.
 ```
 /.temp
     - zh
