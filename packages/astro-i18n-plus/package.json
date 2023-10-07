@@ -1,8 +1,8 @@
 {
   "name": "astro-i18n-plus",
-  "description": "astro i18n plus",
+  "description": "Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.",
   "version": "0.0.3-beta",
-  "homepage": "https://gitee.com/jhpw/astro-i18n-plus",
+  "homepage": "https://github.com/jianghong008/astro-i18n-plus",
   "type": "module",
   "exports": {
     ".": "./index.ts",
@@ -17,7 +17,8 @@
     "astro",
     "withastro",
     "i18n",
-    "i18n-plus"
+    "astro-i18n-plus",
+    "astro-component"
   ],
   "devDependencies": {
     "@types/node": "^20.6.4",
