@@ -1,4 +1,4 @@
-#### EN | [中文](README.ZH.md)
+#### EN | [中文](./README.ZH.md)
 ##### Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.
 
 -  **Zero Configuration**
