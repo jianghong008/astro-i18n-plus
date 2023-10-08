@@ -8,16 +8,16 @@ import { loadConfig, parseUrlToLocale, saveConfig } from "./utils";
 export const config = {
     default: 'en',
 }
-
+const RootDir = process.cwd()
 export const state = {
     messages: new Map<string, any>(),
     locales: new Array<string>(),
     locale: 'en',
-    RootDir: process.cwd(),
-    TempPath: path.join(process.cwd(), '.temp'),
-    PagesDir: path.join(process.cwd(), 'src/pages'),
-    LocaleDir: path.join(process.cwd(), './public/locales'),
-    ConfigDir: path.join(process.cwd(), '.temp/.conf'),
+    RootDir,
+    TempPath: path.join(RootDir, '.temp'),
+    PagesDir: path.join(RootDir, 'src/pages'),
+    LocaleDir: path.join(RootDir, './public/locales'),
+    ConfigDir: path.join(RootDir, '.temp/.conf'),
 }
 
 interface AstroRoute {
@@ -28,19 +28,14 @@ interface AstroRoute {
 }
 
 function loadMessage() {
-    
+
     if (state.messages.has(state.locale)) {
-        
+
         return
     }
-    
-    try {
-        const msg = readFileSync(path.join(state.LocaleDir, state.locale + '.json'), 'utf-8');
-        state.messages.set(state.locale, JSON.parse(msg));
-        
-    } catch (error) {
-        console.log(error)
-    }
+    // 如果出错直接停止，不必捕获异常|If an error occurs, stop directly without catching the exception.
+    const msg = readFileSync(path.join(state.LocaleDir, state.locale + '.json'), 'utf-8');
+    state.messages.set(state.locale, JSON.parse(msg));
 }
 
 export function loadLocales() {
@@ -114,12 +109,7 @@ async function genratePages(pages: AstroRoute[]) {
             page.locale = locale;
 
             await astro.parseModules();
-            try {
-                // fs.access(tempDir,fs.constants.S_IFDIR)
-                await fs.mkdir(tempDir, { recursive: true });
-            } catch (e) {
-                console.log('--->', e)
-            }
+            await fs.mkdir(tempDir, { recursive: true });
             // file
             const f = await fs.open(path.join(tempDir, fullName), 'w');
             await fs.writeFile(f, astro.source.cur);
@@ -141,66 +131,43 @@ const astroI18nPlus: AstroIntegration = {
     name: 'astro-i18n-plus',
     hooks: {
         'astro:config:setup': async (options) => {
-            try {
-                await checkTempDir();
-                const temps = parseRoutes(await getPages());
-                const pages = await genratePages(temps);
-                AstroLocaleParse.BaseDir = state.RootDir;
-                pages.forEach(page => {
-                    const pattern = '/' + page.locale + (page.pattern != '/' ? page.pattern : '');
-                    options.injectRoute({
-                        pattern,
-                        entryPoint: page.entryPoint,
-                    });
-                })
-                saveConfig();
-            } catch (error) {
-                console.error(error);
+            if (options.isRestart) {
+                return
             }
+            await checkTempDir();
+            const temps = parseRoutes(await getPages());
+            const pages = await genratePages(temps);
+            AstroLocaleParse.BaseDir = state.RootDir;
+            pages.forEach(page => {
+                const pattern = '/' + page.locale + (page.pattern != '/' ? page.pattern : '');
+                options.injectRoute({
+                    pattern,
+                    entryPoint: page.entryPoint,
+                });
+            })
+            saveConfig();
+            options.logger.info('Integration is ready.')
         },
 
     }
 }
 
-export function currentLocale(){
-    return getLocale()
-}
-
-export function getLocale() {
-    loadConfig()
-    loadLocales();
-    const locale = new Error().stack?.split('\n')?.[3].replace(/.+\(/, '').replace(')', '').replace(state.TempPath.replaceAll('\\', '/'), '')
-    if (!locale) {
-        
-        return config.default
-    }
-    
-    for (const l of state.locales) {
-        const reg = new RegExp(`^\/${l}[\\d\\D]+`)
-        if (reg.test(locale)) {
-            return l
-        }
-    }
-
-    return config.default
-}
-export function initLocale(astro:AstroGlobal){
+export function initLocale(astro: AstroGlobal) {
     state.locale = parseUrlToLocale(astro.url.pathname)
     loadMessage();
 }
+
 export function t(k: string): string {
 
-    // state.locale = getLocale()
-    
     const ar = k.split('.');
     let o = null;
-    
+
     let message = state.messages.get(state.locale);
     if (!message) {
         loadMessage();
         message = state.messages.get(state.locale);
     }
-    
+
     for (const s of ar) {
         if (!o && message) {
             o = Reflect.get(message, s);
@@ -208,7 +175,7 @@ export function t(k: string): string {
             o = Reflect.get(o, s);
         }
     }
-    
+
     return o ?? '';
 }
 

@@ -1,7 +1,7 @@
 import { state, config, loadLocales } from "./index";
 import fs from 'fs/promises'
 import { readFileSync } from 'node:fs'
-import { type Url } from "url";
+
 const utileState = {
     configLoaded: false,
 }
