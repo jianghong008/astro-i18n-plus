@@ -147,7 +147,7 @@ const astroI18nPlus: AstroIntegration = {
                 });
             })
             saveConfig();
-            options.logger.info('Integration is ready.')
+            // options.logger.info('Integration is ready.')
         },
 
     }
