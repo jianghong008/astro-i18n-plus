@@ -92,9 +92,10 @@ function parseRoutes(pages: string[]) {
 
 async function genratePages(pages: AstroRoute[]) {
     const ar: AstroRoute[] = []
-    await fs.rm(state.TempPath, { recursive: true });
     const locales = loadLocales();
-
+    if(locales.length>0){
+        await fs.rm(state.TempPath, { recursive: true });
+    }
     for (const locale of locales) {
         if (locale === state.locale) {
             continue;

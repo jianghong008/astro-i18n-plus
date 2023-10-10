@@ -1,0 +1,643 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Astra IDO » Astra: OmniRise is a Web3-based space exploration game">
+  <main role="main" class="bg-astra-sub-page pt-24 h-full" data-controller="ido" data-connected="false">
+    <div class="bg-sub-page-panels w-full">
+      <div aria-label="Panels" class="mx-auto w-full mb-16 max-w-7xl lg:grid grid-cols-2 pt-12 gap-x-12 lg:px-8 px-4">
+        <div class="flex flex-col w-full mb-4 lg:mb-0">
+          <div class="mb-8">
+            <h1 class="mb-4 font-orbitron text-3xl font-bold text-white">
+              Be an Early Supporter
+            </h1>
+            <h1 class="mb-4 font-orbitron text-3xl font-bold text-white">
+              of
+              <span class="text-orange-500"> ASTRA IDO</span>
+              and
+            </h1>
+            <h1 class="font-orbitron text-3xl font-bold text-white">
+              Experience the Cosmos
+            </h1>
+          </div>
+          <div
+            class="label-ido mb-2 w-40 py-1 text-center text-orange-500 rounded"
+          >
+            <small> Astra: OmniRise IDO</small>
+          </div>
+          <div
+            data-ido-target="panelSkeleton"
+            class="mb-8 grid grid-cols-2 gap-x-8"
+          >
+            <div class="w-full h-full">
+              <p class="rounded-full mb-2 animate-skeleton"></p>
+              <p class="rounded-full animate-skeleton"></p>
+            </div>
+            <div class="w-full h-full">
+              <p class="rounded-full mb-2 animate-skeleton"></p>
+              <p class="rounded-full animate-skeleton"></p>
+            </div>
+          </div>
+          <div
+            hidden
+            data-ido-target="panel"
+            class="mb-8 flex justify-between animate-fade-in"
+          >
+            <div class="text-white">
+              <p>Fundraise Goal(USDC)</p>
+              <p
+                data-ido-target="goalAmount"
+                class="font-orbitron text-3xl font-bold"
+              >
+              </p>
+            </div>
+            <div class="text-white">
+              <p>Current fundraising(USDC)</p>
+              <p
+                class="font-orbitron text-3xl font-bold"
+                data-ido-target="totalDeposit"
+              >
+              </p>
+            </div>
+          </div>
+          <div
+            class="relative"
+            aria-label="Time panel skeleton"
+            data-ido-target="panelSkeleton"
+          >
+            <div
+              class="bg-ido-time-panel w-full h-full bg-gray-500 p-1 absolute inset-0"
+            >
+            </div>
+            <div class="relative p-0.5 w-full h-full inset-0">
+              <div
+                class="bg-ido-time-panel w-full h-full bg-[#1B1C22] flex lg:p-12 p-8 text-white flex-col"
+              >
+                <div class="flex justify-between w-full space-x-12">
+                  <div class="w-full">
+                    <div class="mb-8 w-full">
+                      <p class="mb-4 animate-skeleton rounded-full"></p>
+                      <p class="animate-skeleton rounded-full mb-2"></p>
+                      <small class="animate-skeleton rounded-full"></small>
+                    </div>
+                    <div class="w-full">
+                      <p class="mb-4 animate-skeleton rounded-full"></p>
+                      <p class="animate-skeleton rounded-full"></p>
+                    </div>
+                  </div>
+                  <div class="mb-8 w-full">
+                    <p class="mb-4 animate-skeleton rounded-full"></p>
+                    <p class="animate-skeleton rounded-full mb-2"></p>
+                    <small class="animate-skeleton rounded-full"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            aria-label="Time panel"
+            class="relative animate-fade-in"
+            hidden
+            data-ido-target="panel"
+          >
+            <div
+              class="bg-ido-time-panel w-full bg-gray-500 p-12 h-full absolute inset-0"
+            >
+            </div>
+            <div class="relative p-0.5 w-full h-full inset-0">
+              <div
+                class="relative w-full h-full bg-ido-time-panel bg-[#1b1c22] lg:p-8 p-4"
+              >
+                <div
+                  data-ido-target="status"
+                  class="absolute right-0 top-0 bg-status-clip-path flex w-36 items-center justify-center py-3 font-orbitron text-white"
+                >
+                </div>
+                <div class="text-white px-4">
+                  <p>Current Batch Time</p>
+                  <p data-ido-target="batchTime">----/--/-- --:--</p>
+                </div>
+                <div class="mt-10 grid grid-cols-2 gap-x-8 px-4">
+                  <div>
+                    <div class="mb-8 text-white">
+                      <p>From Batch Time</p>
+                      <p
+                        class="font-orbitron text-2xl font-bold"
+                        data-ido-target="startTime"
+                      >
+                      </p>
+                      <small class="font-orbitron" data-ido-target="startDate"
+                      ></small>
+                    </div>
+                    <div class="text-white">
+                      <p>Token Price($USDC)</p>
+                      <p
+                        class="font-orbitron text-2xl font-bold"
+                        data-ido-target="salePrice"
+                      >
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="mb-8 text-white">
+                      <p>To Batch Time</p>
+                      <p
+                        class="font-orbitron text-2xl font-bold"
+                        data-ido-target="endTime"
+                      >
+                      </p>
+                      <small class="font-orbitron" data-ido-target="endDate">
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="relative"
+          aria-label="Funding action panel skeleton"
+          data-ido-target="panelSkeleton"
+        >
+          <div
+            class="bg-ido-panel w-full h-full bg-gray-500 p-1 absolute inset-0"
+          >
+          </div>
+          <div class="relative p-0.5 w-full h-full inset-0">
+            <div
+              class="bg-ido-panel w-full h-full bg-[#1B1C22] flex p-12 text-white flex-col"
+            >
+              <div class="mb-16">
+                <p class="rounded-full animate-skeleton mb-4"></p>
+                <div
+                  class="mb-4 rounded-full animate-skeleton flex items-center space-x-2"
+                >
+                </div>
+                <p class="rounded-full animate-skeleton"></p>
+              </div>
+              <div class="mt-auto mb-4">
+                <div class="mb-4 rounded-full animate-skeleton"></div>
+                <div class="rounded-full animate-skeleton"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          aria-label="Funding action panel"
+          class="relative animate-fade-in"
+          hidden
+          data-ido-target="panel"
+        >
+          <div
+            class="bg-ido-panel w-full bg-gray-500 flex p-12 text-white flex-col absolute inset-0"
+          >
+          </div>
+          <div class="relative p-0.5 h-full inset-0">
+            <div class="bg-ido-panel w-full h-full bg-[#1B1C22] p-8 text-white">
+              <div
+                hidden
+                data-ido-target="panelNotStart"
+                class="w-full h-full text-center flex justify-center items-center"
+              >
+                <div>
+                  <h1 class="text-4xl text-center">
+                    Fundraising not start yet
+                  </h1>
+                  <p>Keep calm and wait for the time</p>
+                </div>
+              </div>
+              <div
+                data-ido-target="panelFundraising"
+                class="w-full h-full flex flex-col"
+              >
+                <div class="mb-16">
+                  <p class="mb-4 text-2xl">My Fundraising</p>
+                  <div
+                    class="mb-4 font-orbitron text-4xl flex items-center space-x-2 font-bold"
+                  >
+                    <p data-ido-target="deposit"></p>
+                    <p>USDC</p>
+                  </div>
+                  <p
+                    class="mb-4 font-orbitron text-2xl"
+                    data-ido-target="currentRatio"
+                  >
+                  </p>
+                </div>
+                <div class="mt-auto mb-8">
+                  <div hidden data-ido-target="refundPanel">
+                    <div class="lg:grid grid-cols-2 mb-4">
+                      <div>
+                        <p class="text-xl">AOR Acquired</p>
+                        <p
+                          class="text-3xl font-orbitron"
+                          data-ido-target="claimAmount"
+                        >
+                        </p>
+                      </div>
+                      <div>
+                        <p class="text-xl">Refundable(USDC)</p>
+                        <p
+                          class="text-3xl font-orbitron"
+                          data-ido-target="refundAmount"
+                        >
+                        </p>
+                      </div>
+                    </div>
+                    <div class="mb-4" data-ido-target="claimAlert" hidden>
+                      <p class="text-gray-400">
+                        Please claim your tokens from
+                        <strong class="font-orbitron"> My Allocation</strong>
+                      </p>
+                    </div>
+                    <div
+                      data-ido-target="buttonRefundNotAvailable"
+                      hidden
+                      class="w-full h-16 bg-ido-btn-path bg-[#2a2b2f] text-gray-500 rounded-lg flex items-center justify-center font-orbitron"
+                    >
+                      Refunded
+                    </div>
+                    <div
+                      data-ido-target="buttonRefundEnded"
+                      hidden
+                      class="w-full h-16 bg-ido-btn-path bg-[#2a2b2f] text-gray-500 rounded-lg flex items-center justify-center font-orbitron"
+                    >
+                      IDO has ended
+                    </div>
+                    <button
+                      type="button"
+                      data-action="click->ido#submitRefund"
+                      data-ido-target="buttonRefund"
+                      class="btn-submit-ido bg-ido-btn-path h-16 w-full items-center justify-center transition-all rounded-lg font-orbitron text-lg"
+                    >
+                      <div
+                        data-ido-target="buttonRefundNormal"
+                        class="flex w-full h-full justify-center items-center"
+                      >
+                        Refund &nbsp;
+                        <span data-ido-target="refundAmountInButton">
+                        </span>&nbsp; USDC
+                      </div>
+                      <div
+                        hidden
+                        data-ido-target="buttonRefundProcessing"
+                        class="flex items-center space-x-2 justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 animate-spin"
+                          viewBox="0 0 512 512"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z"
+                          ></path>
+                        </svg>
+                        <p>Refunding</p>
+                      </div>
+                    </button>
+                  </div>
+                  <form
+                    id="checkout"
+                    name="checkout"
+                    role="form"
+                    novalidate
+                    data-ido-target="formCheckout"
+                    data-action="submit->ido#checkout"
+                  >
+                    <div
+                      class="relative mb-8 h-24 rounded-lg border border-gray-400 transition-colors focus-within:border-orange-500"
+                    >
+                      <div class="absolute right-4 top-2 text-gray-500">
+                        <small data-ido-target="minDeposit"></small>
+                        <small data-ido-target="maxDeposit"></small>
+                      </div>
+                      <input
+                        id="amount"
+                        type="text"
+                        class="h-full w-full bg-transparent px-4 font-orbitron text-3xl focus:outline-none"
+                        autocomplete="off"
+                        required
+                        name="amount"
+                        data-action="input->ido#isNumber"
+                        data-ido-target="inputAmount"
+                        placeholder="Enter amount"
+                      />
+                      <small class="absolute bottom-2 right-4 text-gray-500">
+                        USDC
+                      </small>
+                    </div>
+                    <button
+                      type="submit"
+                      data-ido-target="buttonSubmit"
+                      class="btn-submit-ido bg-ido-btn-path disabled:bg-[#2a2b2f] disabled:bg-none disabled:text-white h-16 w-full hover:text-gray-300 transition-colors rounded-lg font-orbitron text-lg"
+                    >
+                      <div
+                        data-ido-target="buttonSubmitNormal"
+                        class="flex items-center space-x-2 justify-center"
+                      >
+                        <p>Participate</p>
+                      </div>
+                      <div
+                        hidden
+                        data-ido-target="buttonSubmitProcessing"
+                        class="flex items-center space-x-2 justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5 animate-spin"
+                          viewBox="0 0 512 512"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z"
+                          ></path>
+                        </svg>
+                        <p data-ido-target="buttonSubmitProcessingText">
+                          Participating
+                        </p>
+                      </div>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-label="Tab"
+        class="mx-auto w-full max-w-7xl pb-12 lg:px-8 px-4 h-auto"
+        data-controller="tab"
+      >
+        <div
+          class="mb-8 flex w-full space-x-4 border-b border-gray-400"
+          data-ido-target="fundingTableProgressBar"
+          role="tablist"
+        >
+          <button
+            type="button"
+            role="tab"
+            tabindex="0"
+            data-action="click->tab#changeTab"
+            data-tab-target="button"
+            aria-describedby="projectDetails"
+            aria-selected="true"
+            class="font-orbitron btn-tab hover:text-orange-500 transition-colors p-4 font-bold text-2xl"
+          >
+            Project details
+          </button>
+          <button
+            type="button"
+            role="tab"
+            tabindex="-1"
+            data-action="click->tab#changeTab"
+            data-tab-target="button"
+            aria-describedby="myAllocation"
+            aria-selected="false"
+            class="font-orbitron btn-tab hover:text-orange-500 transition-colors p-4 font-bold text-2xl"
+          >
+            My Allocation
+          </button>
+        </div>
+        <div>
+          <div
+            role="tabpanel"
+            aria-labelledby="projectDetails-tab"
+            id="projectDetails"
+            data-tab-target="content"
+            class="text-white"
+          >
+            <h3 class="mb-6 font-orbitron text-xl">About Astra: OmniRise</h3>
+            <p>
+              Astra: OmniRise is an extremely important first installment in the
+              Astra universe. This lightweight MMORPG game allows players to
+              play as adventurers and explore the Astra universe by driving
+              spaceships. Compared to other same-themed games, Astra: OmniRise
+              focuses more on character personal growth, allowing players to
+              experience the story of the universe from an individual
+              perspective. Additionally, there are world events in the game that
+              require the player community to vote on their development, which
+              makes the story development more dynamic and unpredictable,
+              providing players with a completely different gaming experience
+              from previous games.
+            </p>
+            <br />
+            <p>
+              The story is set against the backdrop of a human organization that
+              escapes from the control of a decaying empire and begins a new
+              life in an unknown star system. In this open world, players can
+              pilot spaceships and explore multiple planets, collect resources,
+              or participate in battles. Astra: OmniRise is a completely open
+              world that allows players to decide what they want to do without
+              any limitations.
+            </p>
+            <br />
+            <p>
+              Through exploration and missions in Astra: OmniRise, players can
+              shape the direction and future fate of the Astra universe. The
+              game uses a dynamical narration method, allowing player activities
+              in the game to ultimately impact the development of the world. If
+              players prefer exploring the boundaries of the universe, they may
+              encounter new technologies and civilizations. If players prefer
+              combat, they may attract the attention of some hostile
+              civilizations. All of this will affect the future of the Astra
+              universe, making the role players play in the game more important
+              and meaningful.
+            </p>
+            <h3 class="my-6 font-orbitron text-xl">About IDO</h3>
+            <p>
+              Astra: OmniRise IDO will launch soon. IDO will release a total of
+              5,000,000 tokens at a price of 0.015 $USDC. Users may choose to
+              pay 100-10,000 $USDC when IDO launches. When it ends, the token
+              will be distributed to the user in proportion to the total payment
+              result and the amount provided by the user. The remaining amount
+              will be fully paid back to users.
+            </p>
+            <br />
+            <p>
+              For example, if the total amount in the pool is 100,000 $USDC and
+              a user spends 1,000 $USDC (1% of the total amount), then he will
+              receive 50,000 tokens at a price of 750 $USDC and will be returned
+              250 $USDC.
+            </p>
+          </div>
+          <div
+            role="tabpanel"
+            aria-labelledby="myAllocation-tab"
+            hidden
+            data-tab-target="content"
+            id="myAllocation"
+          >
+            <div
+              class="w-0 h-0.5 bg-orange-500 transition-all"
+              data-ido-target="fundingTableProgress"
+            >
+            </div>
+            <div class="overflow-x-auto overflow-y-hidden">
+              <table aria-label="Funding table" role="table" class="w-full">
+                <thead>
+                  <tr>
+                    <th class="bg-[#272729] py-6 font-orbitron text-white px-4">
+                      NO.</th
+                    >
+                    <th class="bg-[#272729] py-6 font-orbitron text-white px-4"
+                      >Allocation ($AOR)</th
+                    >
+                    <th class="bg-[#272729] py-6 font-orbitron text-white px-4"
+                      >TGE Ratio</th
+                    >
+                    <th class="bg-[#272729] py-6 font-orbitron text-white px-4"
+                      >Release Schedule</th
+                    >
+                    <th class="bg-[#272729] py-6 font-orbitron text-white px-4"
+                      >Action</th
+                    >
+                  </tr>
+                </thead>
+                <tbody data-ido-target="claimTableLoading">
+                  <tr>
+                    <td colspan="5" class="w-full">
+                      <div class="animate-skeleton rounded-full mt-2 mb-2">
+                      </div>
+                      <div class="animate-skeleton rounded-full mb-2"></div>
+                      <div class="animate-skeleton rounded-full mb-2"></div>
+                      <div class="animate-skeleton rounded-full mb-2"></div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody hidden data-ido-target="claimTableSaleTimeNotEnded">
+                  <tr>
+                    <td
+                      colspan="5"
+                      class="py-12 px-4 text-center text-2xl text-gray-500"
+                    >
+                      <p>
+                        You can claim your tokens here after the IDO is
+                        completed
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody data-ido-target="claimTableBody"> </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <svg width="0" height="0">
+    <clipPath id="ido-panel-path" clipPathUnits="objectBoundingBox"
+      ><path
+        d="M0.842,0.96 H0.842 L0.841,0.96 L0.804,1 H0.038 L0.001,0.96 V0.041 L0.038,0.001 H1 V0.933 L0.976,0.96 H0.842"
+      ></path></clipPath
+    >
+  </svg>
+  <svg width="0" height="0">
+    <clipPath id="ido-button-path" clipPathUnits="objectBoundingBox"
+      ><path d="M0,0 H0.768 L0.779,0.094 H0.982 L1,0.25 V1 H0.037 L0,0.688 V0"
+      ></path></clipPath
+    >
+  </svg>
+  <svg width="0" height="0">
+    <clipPath id="ido-time-panel-path" clipPathUnits="objectBoundingBox"
+      ><path
+        d="M1,0 H0.043 L0,0.085 V0.915 L0.043,1 H0.775 L0.818,0.915 H0.971 L1,0.859 V0"
+      ></path></clipPath
+    >
+  </svg>
+  <svg width="0" height="0">
+    <clipPath id="status-path" clipPathUnits="objectBoundingBox"
+      ><path d="M0,0 H1 V1 H0.217 L0,0"></path></clipPath
+    >
+  </svg>
+  <svg width="0" height="0">
+    <clipPath id="ido-refund-button-path" clipPathUnits="objectBoundingBox"
+      ><path
+        d="M0,0 H0.6 L0.633,0.091 L0.933,0.091 L1,0.273 V1 H0.1 L0,0.727 V0"
+      ></path></clipPath
+    >
+  </svg>
+</Layout>
+
+<script>
+  
+</script>
+
+<style>
+  .animate-skeleton {
+    width: 100%;
+    height: 2rem;
+  }
+  .label-ido {
+    border: 1px solid;
+    border-image: linear-gradient(to bottom, #b556ff, #ffb321) 1;
+  }
+  .bg-status-clip-path {
+    clip-path: url(#status-path);
+  }
+  .bg-status--not-start {
+    background-image: linear-gradient(255.88deg, #f8ab27 0%, #bf4900 100%);
+  }
+  .bg-status--ongoing {
+    background-image: linear-gradient(263.96deg, #1ca2ab 0%, #31de8b 81.33%);
+  }
+  .bg-status--ended {
+    background-image: linear-gradient(263.96deg, #656565 0%, #a7a7a7 81.33%);
+  }
+  @keyframes gradientAnimation {
+    0% {
+      background: linear-gradient(to bottom, #b556ff, #ffb321);
+    }
+    50% {
+      background: linear-gradient(to bottom, #ffb321, #b556ff);
+    }
+    100% {
+      background: linear-gradient(to bottom, #b556ff, #ffb321);
+    }
+  }
+  .bg-ido-panel {
+    clip-path: url(#ido-panel-path);
+    background-image: url("../assets/images/bg-ido-panel.png");
+    background-image: url("../assets/images/bg-ido-panel.avif");
+    background-repeat: no-repeat;
+    background-position: 99.5% 0.65%;
+  }
+  .bg-ido-panel--animate {
+    animation: gradientAnimation 5s infinite;
+  }
+  .bg-ido-time-panel {
+    clip-path: url(#ido-time-panel-path);
+  }
+  .bg-ido-btn-path {
+    clip-path: url(#ido-button-path);
+  }
+  .btn-submit-ido,
+  :global(.btn-action-ido) {
+    background-image: linear-gradient(255.88deg, #f8ab27 0%, #bf4900 100%);
+  }
+  .btn-submit-ido:not(:disabled):hover,
+  :global(.btn-action-ido:not(:disabled):hover) {
+    background-image: linear-gradient(0deg, #f8ab27 0%, #e68f1b 100%);
+  }
+  :global(.btn-action-ido-path) {
+    clip-path: url(#ido-refund-button-path);
+  }
+  .btn-tab {
+    color: white;
+    border-bottom-width: 2px;
+    border-color: transparent;
+  }
+  .btn-tab[aria-selected="true"] {
+    color: #e68f1b;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-bottom: 2px solid #e68f1b;
+  }
+</style>

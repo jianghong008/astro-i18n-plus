@@ -39,10 +39,10 @@ export class AstroLocaleParse {
         return path.join(AstroLocaleParse.BaseDir, './src/pages')
     }
     async loadSource() {
-        const ctx: string = await fs.readFile(this._filePath, { encoding: 'utf8' });
-        const reg1 = /---[\d\D]*---/i
+        const ctx: string = await fs.readFile(this._filePath, { encoding: 'utf8' }) + '';
+        const reg1 = /---[^(<\\w*>)]*---/
         const serverScript = ctx.match(reg1)?.[0]
-
+        
         let reg2 = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g
         const scripts: ScriptSource[] = []
         ctx.match(reg2)?.forEach(s => {
