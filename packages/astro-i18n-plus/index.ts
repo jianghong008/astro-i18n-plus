@@ -133,7 +133,7 @@ const astroI18nPlus: AstroIntegration = {
     hooks: {
         'astro:config:setup': async (options) => {
             if (options.isRestart) {
-                return
+                // return
             }
             await checkTempDir();
             const temps = parseRoutes(await getPages());
@@ -147,7 +147,6 @@ const astroI18nPlus: AstroIntegration = {
                 });
             })
             saveConfig();
-            // options.logger.info('Integration is ready.')
         },
 
     }

@@ -31,6 +31,7 @@ export async function saveConfig() {
     await fs.writeFile(state.ConfigDir, JSON.stringify(config), 'utf-8');
 }
 export function parseUrlToLocale(url: string) {
+    loadConfig()
     const locales: string[] = loadLocales();
     const tmp = url.split('/').filter(s => s != '');
     let locale = config.default
@@ -42,24 +43,25 @@ export function parseUrlToLocale(url: string) {
     }
     return locale
 }
-export function localizePath(pageUrl: URL, locale?: string) {
+export function localizePath(pageUrl: URL | string, locale?: string) {
+    const url = (typeof pageUrl !== 'string') ? pageUrl.pathname : pageUrl
     if (locale === undefined) {
-        return pageUrl.pathname;
+        return url;
     }
-    const curlocale = parseUrlToLocale(String(pageUrl.pathname))
+    const curlocale = parseUrlToLocale(url)
     loadConfig();
     const baseUrl = import.meta.env.BASE_URL + (config.default === curlocale ? '' : curlocale);
     const targetUrl = import.meta.env.BASE_URL + (config.default === locale ? '' : locale);
-    
-    if (targetUrl == pageUrl.pathname || targetUrl + '/' == pageUrl.pathname) {
-        return pageUrl.pathname;
+
+    if (targetUrl == url || targetUrl + '/' == url) {
+        return url;
     }
-    
+
     if (baseUrl === '/') {
-        return pageUrl.pathname?.replace(baseUrl, (targetUrl === '/' ? '' : targetUrl) + '/');
+        return url?.replace(baseUrl, (targetUrl === '/' ? '' : targetUrl) + '/');
     }
-    
-    return pageUrl.pathname?.replace(baseUrl, targetUrl === '/' ? '' : targetUrl);
+
+    return url?.replace(baseUrl, targetUrl === '/' ? '' : targetUrl);
 }
 
 export function localizeUrl(url?: string) {

@@ -40,7 +40,7 @@ export class AstroLocaleParse {
     }
     async loadSource() {
         const ctx: string = await fs.readFile(this._filePath, { encoding: 'utf8' }) + '';
-        const reg1 = /---[^(<\\w*>)]*---/
+        const reg1 = /---[^<]*(?:(?!<\/)<[^<]*)*---/
         const serverScript = ctx.match(reg1)?.[0]
         
         let reg2 = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g
@@ -154,7 +154,7 @@ export class AstroLocaleParse {
         await this.loadSource()
         // sever
         const server = this.resolveModule(this.source.server.src.replaceAll('---', ''), true);
-        this.source.server.cur = `---${server}---`;
+        this.source.server.cur = server?`---${server}---`:'';
         this.source.cur = this.source.src.replace(this.source.server.src, this.source.server.cur)
         // scripts 
         for (const index in this.source.scripts) {
