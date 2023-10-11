@@ -1,6 +1,6 @@
 # astro-i18n-plus
 
-#### 介绍
-astro 国际化插件
+#### 介绍 | Introduce
+astro 国际化插件 | Internationalization plug-in
 
-详情使用请看 [使用说明](https://gitee.com/jhpw/astro-i18n-plus/blob/master/packages/astro-i18n-plus/README.md)
+Please see the instructions for [使用说明 | usage details](https://github.com/jianghong008/astro-i18n-plus/tree/master/packages/astro-i18n-plus)
