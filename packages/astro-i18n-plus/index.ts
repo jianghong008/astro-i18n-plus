@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs/promises'
 import { readFileSync, readdirSync } from 'node:fs'
 import { AstroLocaleParse } from "./astro-parse";
-import { loadConfig, parseUrlToLocale, saveConfig } from "./utils";
+import { clientTranslate, loadConfig, mapToObj, parseUrlToLocale, saveConfig } from "./utils";
 
 export const config = {
     default: 'en',
@@ -27,8 +27,10 @@ interface AstroRoute {
     locale: string
 }
 
-function loadMessage() {
-
+function loadMessage(locale?: string) {
+    if (locale) {
+        state.locale = locale
+    }
     if (state.messages.has(state.locale)) {
 
         return
@@ -36,6 +38,13 @@ function loadMessage() {
     // 如果出错直接停止，不必捕获异常|If an error occurs, stop directly without catching the exception.
     const msg = readFileSync(path.join(state.LocaleDir, state.locale + '.json'), 'utf-8');
     state.messages.set(state.locale, JSON.parse(msg));
+}
+
+function loadAllMessages() {
+    const ar = loadLocales()
+    for (const l of ar) {
+        loadMessage(l)
+    }
 }
 
 export function loadLocales() {
@@ -93,7 +102,7 @@ function parseRoutes(pages: string[]) {
 async function genratePages(pages: AstroRoute[]) {
     const ar: AstroRoute[] = []
     const locales = loadLocales();
-    if(locales.length>0){
+    if (locales.length > 0) {
         await fs.rm(state.TempPath, { recursive: true });
     }
     for (const locale of locales) {
@@ -135,17 +144,31 @@ const astroI18nPlus: AstroIntegration = {
             if (options.isRestart) {
                 // return
             }
-            await checkTempDir();
-            const temps = parseRoutes(await getPages());
-            const pages = await genratePages(temps);
-            AstroLocaleParse.BaseDir = state.RootDir;
-            pages.forEach(page => {
-                const pattern = '/' + page.locale + (page.pattern != '/' ? page.pattern : '');
-                options.injectRoute({
-                    pattern,
-                    entryPoint: page.entryPoint,
-                });
-            })
+            try {
+                await checkTempDir();
+                const temps = parseRoutes(await getPages());
+                const pages = await genratePages(temps);
+                AstroLocaleParse.BaseDir = state.RootDir;
+                pages.forEach(page => {
+                    const pattern = '/' + page.locale + (page.pattern != '/' ? page.pattern : '');
+                    options.injectRoute({
+                        pattern,
+                        entryPoint: page.entryPoint,
+                    });
+                })
+                loadAllMessages()
+            } catch (error) {
+                console.error('astro-i18n-plus:initialization failed!')
+                console.error(error)
+            }
+            const client: I18nClient = {
+                messages: mapToObj(state.messages),
+                locales: loadLocales(),
+                default: config.default,
+                locale: config.default,
+            }
+            const clientScript = `window.I18nClient=${JSON.stringify(client)};window.I18nClient.t=${clientTranslate.toString()};`
+            options.injectScript('head-inline', clientScript)
             saveConfig();
         },
 

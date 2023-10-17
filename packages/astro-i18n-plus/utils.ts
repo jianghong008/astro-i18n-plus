@@ -86,3 +86,74 @@ export function insertToString(s: string, val: string, start: number) {
     ar.splice(start + 1, 0, ...val.split(''));
     return ar.join('');
 }
+
+export function mapToObj(data: Map<string, any>) {
+    const obj = Object.create({})
+
+    let items = data.entries()
+    for (const item of items) {
+        obj[item[0]] = JSON.stringify(item[1])
+    }
+    return obj
+}
+
+export function parseMessages(data: any) {
+    const obj = Object.create({})
+    for (const k in data) {
+        try {
+            obj[k] = JSON.parse(data[k])
+        } catch (error) {
+            obj[k] = {}
+            console.error(error)
+        }
+    }
+    return obj
+}
+
+export const clientTranslate = (k: string, messages?: any) => {
+    const w = (window as any)
+    if (!w.I18nClient) {
+        console.error('I18nClient not found',w.I18nClient)
+        return ''
+    }
+    // parse locale
+    const locales: string[] = w.I18nClient.locales;
+    const tmp = window.location.pathname.split('/').filter(s => s != '');
+    let locale = w.I18nClient.default
+    for (const s of locales) {
+        if (s === tmp[0]) {
+            locale = s;
+            break
+        }
+    }
+    w.I18nClient.locale = locale
+    // parse messages
+    const obj = Object.create({})
+    if (!messages) {
+        for (const k in w.I18nClient.messages) {
+            try {
+                obj[k] = JSON.parse(w.I18nClient.messages[k])
+            } catch (error) {
+                obj[k] = {}
+                console.error(error)
+            }
+        }
+    }
+
+    // translate
+    const msgs = messages ? messages : obj;
+    const msg = msgs[locale]
+    if (!msg) {
+        return ''
+    }
+    const ar = k.split('.');
+    let o = null;
+    for (const s of ar) {
+        if (!o && msg) {
+            o = Reflect.get(msg, s);
+        } else if (o) {
+            o = Reflect.get(o, s);
+        }
+    }
+    return o ?? '';
+}

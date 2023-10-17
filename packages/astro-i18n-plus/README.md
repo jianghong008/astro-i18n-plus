@@ -10,6 +10,10 @@ Astro-i18n plus is an international plugin that automates basic operations witho
     Automatic maintenance of multilingual templates
 - **Not polluting the project**
     In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable
+##### Getting Started
+```
+npm i astro-i18n-plus
+```
 
 If your root directory looks like this
 ```
@@ -53,4 +57,11 @@ initLocale(Astro);
 ```html
 <!-- html -->
 <h1>{t("title")}</h1>
+```
+
+##### Client usage introduction
+Just use it directly(Not limited to UI framework)
+``` javascript
+window.I18nClient.t('cards.0.title')
+
 ```
