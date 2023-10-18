@@ -4,24 +4,6 @@ import fs from 'fs/promises'
 import { readFileSync, readdirSync } from 'node:fs'
 import { AstroLocaleParse } from "./astro-parse";
 import { clientTranslate, loadConfig, mapToObj, parseUrlToLocale, saveConfig } from "./utils";
-declare global {
-    interface ImportMeta {
-        env: {
-            BASE_URL: string
-        }
-    }
-    interface I18nClient {
-        messages: Map<string, any>
-        locales: string[]
-        default: string
-        locale: string
-        t:(k:string)=>string
-    }
-    
-    interface Window {
-        I18nClient:I18nClient
-    }
-}
 
 export const config = {
     default: 'en',
@@ -36,13 +18,6 @@ export const state = {
     PagesDir: path.join(RootDir, 'src/pages'),
     LocaleDir: path.join(RootDir, './public/locales'),
     ConfigDir: path.join(RootDir, '.temp/.conf'),
-}
-
-interface AstroRoute {
-    pattern: string
-    entryPoint: string
-    src: string
-    locale: string
 }
 
 function loadMessage(locale?: string) {
@@ -184,6 +159,9 @@ const astroI18nPlus: AstroIntegration = {
                 locales: loadLocales(),
                 default: config.default,
                 locale: config.default,
+                t: function (k: string): string {
+                    throw new Error("Function not implemented.");
+                }
             }
             const clientScript = `window.I18nClient=${JSON.stringify(client)};window.I18nClient.t=${clientTranslate.toString()};`
             options.injectScript('head-inline', clientScript)
