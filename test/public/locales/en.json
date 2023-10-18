@@ -19,6 +19,9 @@
             "subtitle":"In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable"
         }
     ],
+    "clienti18n":{
+        "title":"This is a react component"
+    },
     "articles":{
         "title":"This is an article"
     },

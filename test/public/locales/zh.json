@@ -19,6 +19,9 @@
             "subtitle":"以往的国际化组件会在src下生成多套模板,这看起来很不爽."
         }
     ],
+    "clienti18n":{
+        "title":"这是一个react组件"
+    },
     "articles":{
         "title":"这是一篇文章"
     },

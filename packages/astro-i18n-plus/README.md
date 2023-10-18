@@ -1,4 +1,4 @@
-EN | [中文](./README.ZH.md)
+EN | [中文](https://github.com/jianghong008/astro-i18n-plus/blob/master/packages/astro-i18n-plus/README.ZH.md)
 
 Astro-i18n plus is an international plugin that automates basic operations without the need for manual page management or interference with your src directory.
 
@@ -11,8 +11,9 @@ Astro-i18n plus is an international plugin that automates basic operations witho
 - **Not polluting the project**
     In the past, internationalized components would generate multiple sets of templates under src, which seemed uncomfortable
 ##### Getting Started
+You don't need to package it into the project, just generate it locally.
 ```
-npm i astro-i18n-plus
+npm i astro-i18n-plus -D
 ```
 
 If your root directory looks like this
@@ -60,8 +61,21 @@ initLocale(Astro);
 ```
 
 ##### Client usage introduction
-Just use it directly(Not limited to UI framework)
+Just use it directly(vue,react,html...)
 ``` javascript
-window.I18nClient.t('cards.0.title')
+interface I18nClient {
+    messages: Map<string, any>
+    locales: string[]
+    default: string
+    locale: string
+    t:(k:string)=>string
+}
+// react
+export default ()=>{
+    const {t} = window.I18nClient
+    return <div className="p-4 my-4 bg-slate-800">
+        {t('clienti18n.title')}
+    </div>
+}
 
 ```

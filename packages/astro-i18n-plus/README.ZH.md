@@ -1,5 +1,6 @@
-[EN](./README.md) | 中文
-##### Astro-i18n-plus是一个国际化插件，它可以自动执行基本操作，而无需手动页面管理或干扰src目录。
+[EN](https://github.com/jianghong008/astro-i18n-plus/tree/master/packages/astro-i18n-plus) | 中文
+
+Astro-i18n-plus是一个国际化插件，它可以自动执行基本操作，而无需手动页面管理或干扰src目录。
 
 -  **零配置**
     没有额外的配置，您只需要专注于自己的业务，而不必担心翻译问题。
@@ -10,6 +11,7 @@
 - **不会干扰您的项目**
     大多国际化插件会在src下生成多套语言模板，这会让人反感甚至直接修改用户的源码文件，经常造成奇奇怪怪的的问题（这是咱们弄这个的初衷）。
 ##### 安装
+你不需要打包进项目里，本地生成即可。
 ```
 npm i astro-i18n-plus
 ```
@@ -60,6 +62,18 @@ initLocale(Astro);
 ##### 客户端用法
 直接使用(很明显不受限框架)
 ``` javascript
-window.I18nClient.t('cards.0.title')
-
+interface I18nClient {
+    messages: Map<string, any>
+    locales: string[]
+    default: string
+    locale: string
+    t:(k:string)=>string
+}
+// react
+export default ()=>{
+    const {t} = window.I18nClient
+    return <div className="p-4 my-4 bg-slate-800">
+        {t('clienti18n.title')}
+    </div>
+}
 ```

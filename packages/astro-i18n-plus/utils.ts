@@ -111,9 +111,13 @@ export function parseMessages(data: any) {
 }
 
 export const clientTranslate = (k: string, messages?: any) => {
+    if(!window){
+        console.log('I18nClient is only used on the client side')
+        return ''
+    }
     const w = (window as any)
     if (!w.I18nClient) {
-        console.error('I18nClient not found',w.I18nClient)
+        console.error('I18nClient not found', w.I18nClient)
         return ''
     }
     // parse locale

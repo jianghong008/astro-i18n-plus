@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import { t,initLocale } from "astro-i18n-plus";
+import MyReactComp from "../components/MyReactComp";
+
 initLocale(Astro)
 ---
 
@@ -46,6 +48,7 @@ initLocale(Astro)
 			<Card title={t("cards.2.title")} body={t("cards.2.subtitle")} />
 			<Card title={t("cards.3.title")} body={t("cards.3.subtitle")} />
 		</ul>
+		<MyReactComp client:only/>
 	</main>
 </Layout>
 <script>
