@@ -1,20 +1,14 @@
-interface ImportMeta {
-    env: {
-        BASE_URL: string
-    }
-}
-interface I18nClient {
-    messages: Map<string, any>
-    locales: string[]
-    default: string
-    locale: string
-    t:(k:string)=>string
+interface ScriptSource {
+    src: string
+    cur: string
 }
 
-interface Window {
-    I18nClient:I18nClient
+interface SourceFile {
+    src: string
+    server: ScriptSource
+    scripts: ScriptSource[]
+    cur: string
 }
-
 interface AstroRoute {
     pattern: string
     entryPoint: string

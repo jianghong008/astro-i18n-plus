@@ -3,18 +3,6 @@ import path from 'path';
 import fs from 'node:fs/promises';
 import { parse } from '@typescript-eslint/typescript-estree';
 import { insertToString } from './utils';
-
-interface ScriptSource {
-    src: string
-    cur: string
-}
-
-interface SourceFile {
-    src: string
-    server: ScriptSource
-    scripts: ScriptSource[]
-    cur: string
-}
 export class AstroLocaleParse {
     static SetLocaleMethod = 'initLocale'
     static BaseDir = '';
